@@ -10,18 +10,73 @@
 - Вычисление метрик: плотность, диаметр, транзитивность, компоненты связности, точки сочленения, мосты, двудольность, верхняя оценка хроматического числа.
 - Сохранение в форматах: GraphViz (.dot) и .edges (для programforyou.ru).
 
-## Сборка
+## Требования
+
+- CMake 3.10 или выше
+- Компилятор с поддержкой C++17 (GCC 7+, Clang 5+, MSVC 2017+)
+- Git (для клонирования репозитория)
+
+## Сборка и запуск
+
+### 1. Клонирование репозитория
 
 ```bash
-mkdir build && cd build
-cmake ..
-cmake --build .
+git clone https://github.com/your-username/GraphoDro4.git
+cd GraphoDro4
 ```
+
+### 2. Сборка с помощью CMake
+
+#### Windows (командная строка)
+
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+```
+
+После сборки исполняемые файлы появятся в папке `build/Release` (или `build/Debug`, если указан Debug).
+
+#### Linux / macOS
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+Исполняемые файлы появятся в папке `build`.
+
+#### Альтернатива: использование CLion
+
+- Откройте папку с проектом в CLion.
+- Нажмите `File -> Reload CMake Project`.
+- Выберите конфигурацию `GraphoDro4` и нажмите кнопку сборки (зелёный молоток).
+- Запустите приложение, нажав кнопку `Run` (зелёный треугольник).
+
+### 3. Запуск приложения
+
+#### Windows
+
+```bash
+cd build\Release
+GraphoDro4.exe
+```
+
+#### Linux / macOS
+
+```bash
+cd build
+./GraphoDro4
+```
+
+После запуска откроется интерактивная консоль с приглашением `>`.
 
 ## Использование
 
-Запустите исполняемый файл `GraphoDro4` (или `GraphoDro4.exe` на Windows).  
-В интерактивной консоли доступны команды:
+### Команды
 
 - **generate <тип> [параметры]** – сгенерировать граф
 - **load <файл> <формат>** – загрузить граф
@@ -59,7 +114,7 @@ cmake --build .
 ### Форматы сохранения
 
 - `dot` – для Graphviz (визуализация)
-- `edges` – для programforyou.ru (нумерация с 1)
+- `edges` – для programforyou.ru (нумерация вершин с 1)
 
 ### Доступные метрики
 
@@ -72,34 +127,47 @@ cmake --build .
 - `bipartite` – проверка на двудольность
 - `chromatic` – верхняя оценка хроматического числа (жадная раскраска)
 
-## Примеры
+## Примеры сессий
 
-1. **Создать полный граф K5 и вычислить плотность:**
-   ```
-   > generate complete 5
-   > metric density
-   ```
+### Создать полный граф K5 и вычислить плотность
 
-2. **Сохранить граф в формате dot и открыть в GraphvizOnline:**
-   ```
-   > save graph.dot dot
-   ```
-   Загрузить файл на https://dreampuf.github.io/GraphvizOnline/
+```
+> generate complete 5
+Graph generated: complete
+> metric density
+Density: 1
+> metric diameter
+Diameter: 1
+```
 
-3. **Сохранить граф для programforyou.ru:**
-   ```
-   > save graph.edges edges
-   ```
+### Сохранить граф в формате dot и открыть в GraphvizOnline
+
+```
+> generate random 20 15
+Graph generated: random
+> save graph.dot dot
+Graph saved to graph.dot
+```
+Загрузите файл `graph.dot` на сайт [GraphvizOnline](https://dreampuf.github.io/GraphvizOnline/) для визуализации.
+
+### Сохранить граф для programforyou.ru
+
+```
+> save graph.edges edges
+Graph saved to graph.edges
+```
+Полученный файл можно открыть на [programforyou.ru/graph-redactor](https://programforyou.ru/graph-redactor).
 
 ## Тестирование
 
 После сборки выполните:
+
 ```bash
 ./tests        # Linux/macOS
 tests.exe      # Windows
 ```
 
-## Автор
+Тесты проверяют базовую функциональность графа, метрик и генераторов.
 
-Kango911
+
 ```
