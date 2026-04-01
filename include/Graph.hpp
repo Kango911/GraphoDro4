@@ -4,7 +4,6 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
-#include <optional>
 #include <memory>
 #include <stdexcept>
 
@@ -34,36 +33,11 @@ public:
     virtual std::vector<Vertex> neighbors(Vertex v) const;
     virtual size_t degree(Vertex v) const;
 
-    // Свойства
     bool isDirected() const { return directed_; }
-
-    // Кэширование результатов метрик (опционально)
-    void invalidateCache() { cacheValid_ = false; }
-
-    // Метрики (возвращают cached или вычисляют)
-    double getDensity();
-    int getDiameter();
-    double getTransitivity();
-    int getConnectedComponents();
-    int getArticulationPoints();
-    int getBridges();
-    bool getIsBipartite();
-    int getGreedyChromaticNumber();
 
 protected:
     bool directed_;
     std::unordered_map<Vertex, std::unordered_map<Vertex, double>> adj_;
-
-    // Кэш
-    mutable bool cacheValid_ = false;
-    mutable double cachedDensity_ = 0.0;
-    mutable int cachedDiameter_ = -1;
-    mutable double cachedTransitivity_ = 0.0;
-    mutable int cachedComponents_ = -1;
-    mutable int cachedArticulationPoints_ = -1;
-    mutable int cachedBridges_ = -1;
-    mutable bool cachedBipartite_ = false;
-    mutable int cachedGreedyChromatic_ = -1;
 };
 
 #endif

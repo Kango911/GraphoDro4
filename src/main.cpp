@@ -11,13 +11,11 @@
 #include "Generator.hpp"
 #include "Metrics.hpp"
 
-// парсеры
 #include "parsers/EdgeListParser.hpp"
 #include "parsers/AdjacencyMatrixParser.hpp"
 #include "parsers/DIMACSParser.hpp"
 #include "parsers/SNAPParser.hpp"
 
-// генераторы
 #include "generators/CompleteGraphGenerator.hpp"
 #include "generators/CompleteBipartiteGenerator.hpp"
 #include "generators/TreeGenerator.hpp"
@@ -33,7 +31,6 @@
 #include "generators/FixedTwoBridgesGenerator.hpp"
 #include "generators/HalinGraphGenerator.hpp"
 
-// сериализаторы
 #include "serializers/GraphVizSerializer.hpp"
 #include "serializers/Program4YouSerializer.hpp"
 

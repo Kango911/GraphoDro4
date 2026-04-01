@@ -4,7 +4,6 @@ Graph::Graph(bool directed) : directed_(directed) {}
 
 void Graph::addVertex(Vertex v) {
     adj_.try_emplace(v, std::unordered_map<Vertex, double>());
-    invalidateCache();
 }
 
 void Graph::removeVertex(Vertex v) {
@@ -12,7 +11,6 @@ void Graph::removeVertex(Vertex v) {
     for (auto& [_, neigh] : adj_) {
         neigh.erase(v);
     }
-    invalidateCache();
 }
 
 bool Graph::hasVertex(Vertex v) const {
@@ -35,13 +33,11 @@ void Graph::addEdge(Vertex u, Vertex v, double weight) {
     if (!hasVertex(v)) addVertex(v);
     adj_[u][v] = weight;
     if (!directed_) adj_[v][u] = weight;
-    invalidateCache();
 }
 
 void Graph::removeEdge(Vertex u, Vertex v) {
     adj_[u].erase(v);
     if (!directed_) adj_[v].erase(u);
-    invalidateCache();
 }
 
 bool Graph::hasEdge(Vertex u, Vertex v) const {
@@ -81,20 +77,3 @@ size_t Graph::degree(Vertex v) const {
     auto it = adj_.find(v);
     return (it == adj_.end()) ? 0 : it->second.size();
 }
-
-// Метрики с кэшированием (реализация в Metrics.cpp, но здесь заглушки)
-double Graph::getDensity() {
-    if (!cacheValid_) {
-        // вызываем вычисление метрик из Metrics, кэшируем
-        // для упрощения будем считать в Metrics.cpp
-        cacheValid_ = true;
-    }
-    return cachedDensity_;
-}
-int Graph::getDiameter() { return cachedDiameter_; }
-double Graph::getTransitivity() { return cachedTransitivity_; }
-int Graph::getConnectedComponents() { return cachedComponents_; }
-int Graph::getArticulationPoints() { return cachedArticulationPoints_; }
-int Graph::getBridges() { return cachedBridges_; }
-bool Graph::getIsBipartite() { return cachedBipartite_; }
-int Graph::getGreedyChromaticNumber() { return cachedGreedyChromatic_; }

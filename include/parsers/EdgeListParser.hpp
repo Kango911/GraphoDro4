@@ -2,7 +2,6 @@
 #define EDGELISTPARSER_HPP
 
 #include "Parser.hpp"
-#include <string>
 
 class EdgeListParser : public Parser {
 public:

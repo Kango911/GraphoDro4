@@ -1,7 +1,6 @@
 #include "algorithms/DFSVisitor.hpp"
 #include <stack>
 #include <utility>
-#include <vector>
 
 void depthFirstSearch(const Graph& g, Graph::Vertex start,
                       DFSVisitor& visitor,
