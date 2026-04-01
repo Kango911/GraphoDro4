@@ -21,7 +21,7 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/your-username/GraphoDro4.git
+git clone https://github.com/kango911/GraphoDro4.git
 cd GraphoDro4
 ```
 
