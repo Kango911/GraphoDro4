@@ -1,34 +1,41 @@
 #include "Generator.hpp"
-#include <random>
 #include <vector>
+#include <stdexcept>
 
 class FixedBridgesGenerator : public Generator {
 public:
     FixedBridgesGenerator(int n, int bridges) : n_(n), bridges_(bridges) {
-        if (bridges > n-1) throw std::invalid_argument("too many bridges");
+        if (bridges_ > n_ - 1) throw std::invalid_argument("too many bridges");
     }
+
     std::unique_ptr<Graph> generate() override {
         auto g = std::make_unique<Graph>(false);
         for (int i = 0; i < n_; ++i) g->addVertex(i);
-        // Создаем цепочку из bridges+1 компонент, соединенных мостами
-        std::vector<int> compSizes(bridges+1, 1);
-        int remaining = n_ - (bridges+1);
+
+        // Создаем цепочку из bridges_+1 компонент, соединенных мостами
+        std::vector<int> compSizes(bridges_ + 1, 1);
+        int remaining = n_ - (bridges_ + 1);
         for (int i = 0; i < remaining; ++i) {
-            compSizes[i % (bridges+1)]++;
+            compSizes[i % (bridges_ + 1)]++;
         }
+
         int start = 0;
-        for (int i = 0; i <= bridges; ++i) {
+        for (int i = 0; i <= bridges_; ++i) {
             int size = compSizes[i];
-            for (int j = start; j < start+size-1; ++j) {
-                g->addEdge(j, j+1);
+            // внутри компоненты делаем простой путь
+            for (int j = start; j < start + size - 1; ++j) {
+                g->addEdge(j, j + 1);
             }
-            if (i < bridges) {
-                g->addEdge(start+size-1, start+size);
+            // соединяем мостом с следующей компонентой (если не последняя)
+            if (i < bridges_) {
+                g->addEdge(start + size - 1, start + size);
             }
             start += size;
         }
         return g;
     }
+
 private:
-    int n_, bridges_;
+    int n_;
+    int bridges_;
 };

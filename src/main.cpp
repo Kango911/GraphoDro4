@@ -1,15 +1,42 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <map>
-#include <functional>
+#include <sstream>
+#include <vector>
+#include <stdexcept>
+
 #include "Graph.hpp"
 #include "Parser.hpp"
 #include "Serializer.hpp"
 #include "Generator.hpp"
 #include "Metrics.hpp"
 
-// Функции для создания объектов (фабрики)
+// парсеры
+#include "parsers/EdgeListParser.hpp"
+#include "parsers/AdjacencyMatrixParser.hpp"
+#include "parsers/DIMACSParser.hpp"
+#include "parsers/SNAPParser.hpp"
+
+// генераторы
+#include "generators/CompleteGraphGenerator.hpp"
+#include "generators/CompleteBipartiteGenerator.hpp"
+#include "generators/TreeGenerator.hpp"
+#include "generators/StarGenerator.hpp"
+#include "generators/CycleGenerator.hpp"
+#include "generators/PathGenerator.hpp"
+#include "generators/WheelGenerator.hpp"
+#include "generators/RandomGraphGenerator.hpp"
+#include "generators/CubicGraphGenerator.hpp"
+#include "generators/FixedComponentsGenerator.hpp"
+#include "generators/FixedBridgesGenerator.hpp"
+#include "generators/FixedArticulationPointsGenerator.hpp"
+#include "generators/FixedTwoBridgesGenerator.hpp"
+#include "generators/HalinGraphGenerator.hpp"
+
+// сериализаторы
+#include "serializers/GraphVizSerializer.hpp"
+#include "serializers/Program4YouSerializer.hpp"
+
 std::unique_ptr<Parser> createParser(const std::string& format) {
     if (format == "edgelist") return std::make_unique<EdgeListParser>();
     if (format == "adjmatrix") return std::make_unique<AdjacencyMatrixParser>();
@@ -48,8 +75,8 @@ std::unique_ptr<Generator> createGenerator(const std::string& type, const std::v
         return std::make_unique<WheelGenerator>(params[0]);
     }
     if (type == "random") {
-        if (params.size() < 2) throw std::runtime_error("Need n, p");
-        return std::make_unique<RandomGraphGenerator>(params[0], params[1]/100.0);
+        if (params.size() < 2) throw std::runtime_error("Need n, p (in percents)");
+        return std::make_unique<RandomGraphGenerator>(params[0], params[1] / 100.0);
     }
     if (type == "cubic") {
         if (params.size() < 1) throw std::runtime_error("Need n");

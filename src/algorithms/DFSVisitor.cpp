@@ -1,4 +1,7 @@
 #include "algorithms/DFSVisitor.hpp"
+#include <stack>
+#include <utility>
+#include <vector>
 
 void depthFirstSearch(const Graph& g, Graph::Vertex start,
                       DFSVisitor& visitor,
@@ -18,7 +21,6 @@ void depthFirstSearch(const Graph& g, Graph::Vertex start,
                 visitor.treeEdge(v, w);
                 st.push({w, g.neighbors(w).begin()});
             } else {
-                // back edge or cross edge
                 visitor.backEdge(v, w);
             }
         } else {

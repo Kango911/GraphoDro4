@@ -4,15 +4,10 @@
 #include <limits>
 #include <unordered_set>
 #include <stack>
+#include <functional>
+#include <set>
 #include <random>
 
-// Вспомогательные функции
-static void computeAllMetrics(Graph& g) {
-    // Здесь будет вычисление всех метрик и кэширование
-    // Для простоты пока оставим заглушки, но в финальной версии реализуем
-}
-
-// Плотность
 double Metrics::density(const Graph& g) {
     size_t n = g.vertexCount();
     if (n <= 1) return 0.0;
@@ -20,7 +15,6 @@ double Metrics::density(const Graph& g) {
     return static_cast<double>(g.edgeCount()) / maxEdges;
 }
 
-// Диаметр (BFS от каждой вершины)
 int Metrics::diameter(const Graph& g) {
     int diam = 0;
     for (auto v : g.vertices()) {
@@ -44,10 +38,9 @@ int Metrics::diameter(const Graph& g) {
     return diam;
 }
 
-// Транзитивность (отношение треугольников к триадам)
 double Metrics::transitivity(const Graph& g) {
-    if (g.isDirected()) return 0.0; // только для неориентированных
-    std::unordered_set<std::pair<Graph::Vertex, Graph::Vertex>> edgeSet;
+    if (g.isDirected()) return 0.0;
+    std::set<std::pair<Graph::Vertex, Graph::Vertex>> edgeSet;
     for (auto e : g.edges()) {
         edgeSet.insert(e);
     }
@@ -72,7 +65,6 @@ double Metrics::transitivity(const Graph& g) {
     return static_cast<double>(triangles) / triads;
 }
 
-// Компоненты связности (BFS/DFS)
 int Metrics::connectedComponents(const Graph& g) {
     std::unordered_set<Graph::Vertex> visited;
     int comp = 0;
@@ -95,9 +87,8 @@ int Metrics::connectedComponents(const Graph& g) {
     return comp;
 }
 
-// Точки сочленения (алгоритм Тарьяна)
 int Metrics::articulationPoints(const Graph& g) {
-    if (g.isDirected()) return 0; // только неориентированные
+    if (g.isDirected()) return 0;
     std::unordered_map<Graph::Vertex, int> tin, low;
     std::unordered_set<Graph::Vertex> ap;
     int timer = 0;
@@ -129,7 +120,6 @@ int Metrics::articulationPoints(const Graph& g) {
     return ap.size();
 }
 
-// Мосты (алгоритм Тарьяна)
 int Metrics::bridges(const Graph& g) {
     if (g.isDirected()) return 0;
     std::unordered_map<Graph::Vertex, int> tin, low;
@@ -158,7 +148,6 @@ int Metrics::bridges(const Graph& g) {
     return bridges;
 }
 
-// Проверка на двудольность (BFS раскраска)
 bool Metrics::isBipartite(const Graph& g) {
     if (g.isDirected()) return false;
     std::unordered_map<Graph::Vertex, int> color;
@@ -182,7 +171,6 @@ bool Metrics::isBipartite(const Graph& g) {
     return true;
 }
 
-// Жадная раскраска (верхняя оценка хроматического числа)
 int Metrics::greedyChromaticNumber(const Graph& g) {
     if (g.isDirected()) return 0;
     std::vector<Graph::Vertex> vertices = g.vertices();
