@@ -12,8 +12,6 @@ add_library(graph_lib
         src/parsers/AdjacencyMatrixParser.cpp
         src/parsers/DIMACSParser.cpp
         src/parsers/SNAPParser.cpp
-        src/serializers/GraphVizSerializer.cpp
-        src/serializers/Program4YouSerializer.cpp
         src/generators/CompleteGraphGenerator.cpp
         src/generators/CompleteBipartiteGenerator.cpp
         src/generators/TreeGenerator.cpp
