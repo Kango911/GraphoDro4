@@ -8,10 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(graph_lib
         src/Graph.cpp
         src/Metrics.cpp
-        src/parsers/EdgeListParser.cpp
-        src/parsers/AdjacencyMatrixParser.cpp
-        src/parsers/DIMACSParser.cpp
-        src/parsers/SNAPParser.cpp
+        src/algorithms/BiconnectedComponents.cpp
+        src/algorithms/DFSVisitor.cpp
         src/generators/CompleteGraphGenerator.cpp
         src/generators/CompleteBipartiteGenerator.cpp
         src/generators/TreeGenerator.cpp
@@ -26,13 +24,19 @@ add_library(graph_lib
         src/generators/FixedArticulationPointsGenerator.cpp
         src/generators/FixedTwoBridgesGenerator.cpp
         src/generators/HalinGraphGenerator.cpp
+        src/parsers/EdgeListParser.cpp
+        src/parsers/AdjacencyMatrixParser.cpp
+        src/parsers/DIMACSParser.cpp
+        src/parsers/SNAPParser.cpp
+        src/serializers/GraphVizSerializer.cpp
+        src/serializers/Program4YouSerializer.cpp
 )
 
 target_include_directories(graph_lib PUBLIC include)
 
 # Исполняемый файл (консольное приложение)
-add_executable(graph_app src/main.cpp)
-target_link_libraries(graph_app graph_lib)
+add_executable(GraphoDro4 src/main.cpp)
+target_link_libraries(GraphoDro4 graph_lib)
 
 # Тесты (Catch2)
 include(FetchContent)
